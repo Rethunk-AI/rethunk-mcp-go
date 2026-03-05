@@ -12,17 +12,19 @@ const mockConnect = vi.fn().mockResolvedValue(undefined)
 
 // Create mock functions for dependencies
 vi.mock('@modelcontextprotocol/sdk/server/mcp.js', () => ({
-  McpServer: vi.fn(() => ({
-    tool: vi.fn(),
-    resource: vi.fn(),
-    prompt: vi.fn(),
-    connect: mockConnect
-  })),
-  ResourceTemplate: vi.fn(() => ({}))
+  McpServer: vi.fn(function() {
+    return {
+      tool: vi.fn(),
+      resource: vi.fn(),
+      prompt: vi.fn(),
+      connect: mockConnect
+    }
+  }),
+  ResourceTemplate: vi.fn(function() { return {} })
 }))
 
 vi.mock('@modelcontextprotocol/sdk/server/stdio.js', () => ({
-  StdioServerTransport: vi.fn()
+  StdioServerTransport: vi.fn(function() { return {} })
 }))
 
 vi.mock('../tools/goTools.js', () => ({
@@ -92,7 +94,7 @@ describe('MCP Server', () => {
     const mockedConsoleError = console.error as ReturnType<typeof vi.fn>
 
     // Mock McpServer to throw an error
-    vi.mocked(McpServer).mockImplementationOnce(() => {
+    vi.mocked(McpServer).mockImplementationOnce(function() {
       throw new Error('Test initialization error')
     })
 
