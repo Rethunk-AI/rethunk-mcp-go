@@ -21,7 +21,7 @@ The Model Context Protocol (MCP) is a standardized way for applications to provi
 
 ## Prerequisites
 
-- Node.js 18 or later
+- Node.js 20.12 or later (LTS recommended)
 - npm or yarn
 - Go 1.18 or later
 - The following Go tools installed:

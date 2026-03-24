@@ -18,7 +18,8 @@ jobs:
       contents: read
     strategy:
       matrix:
-        node-version: [18.x, 20.x]
+        # ESLint 10’s toolchain uses util.styleText (Node 20.12+); Node 18 is unsupported.
+        node-version: [20.x, 22.x]
 
     steps:
       - uses: actions/checkout@v4
