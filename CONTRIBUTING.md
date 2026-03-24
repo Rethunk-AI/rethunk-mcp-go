@@ -5,7 +5,7 @@ Thank you for your interest in contributing to the MCP Template Node project! Th
 ## Development Setup
 
 1. **Prerequisites**
-   - Node.js 18 or later
+   - Node.js 20.12 or later (LTS recommended)
    - npm or yarn (we use yarn as the default)
    - Git
 

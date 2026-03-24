@@ -29,7 +29,7 @@ If applicable, add screenshots to help explain your problem.
 ## Environment
 
 - OS: [e.g. Ubuntu 22.04, Windows 11]
-- Node Version: [e.g. 18.12.0]
+- Node Version: [e.g. 20.19.0]
 - Package Version: [e.g. 1.0.0]
 
 ## Additional context
