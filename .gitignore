@@ -19,6 +19,10 @@ node_modules/
 build/
 dist/
 
+# Go example binary (`go build -o mcp-golang` in cmd/example)
+cmd/example/mcp-golang
+cmd/example/mcp-golang.exe
+
 # Editor
 .cursorrules
 .cursor/
