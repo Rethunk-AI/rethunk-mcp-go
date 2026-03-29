@@ -1,6 +1,6 @@
+import type { URL } from 'node:url'
 import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js'
 import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js'
-import { URL } from 'url'
 import { registerGoTools } from './tools/goTools.js'
 
 // Constants for server metadata
@@ -24,34 +24,34 @@ export async function main(): Promise<void> {
     // Initialize the MCP server
     const server = new McpServer({
       name: SERVER_NAME,
-      version: SERVER_VERSION
+      version: SERVER_VERSION,
     })
 
     // Register all Go tools
     registerGoTools(server)
 
     // Static resource example: Server configuration
-    server.resource(
-      'config',
-      'config://app',
-      async (uri: URL) => ({
-        contents: [{
+    server.resource('config', 'config://app', async (uri: URL) => ({
+      contents: [
+        {
           uri: uri.href,
-          text: JSON.stringify({
-            name: SERVER_NAME,
-            version: SERVER_VERSION,
-            environment: 'development'
-          }, null, 2)
-        }]
-      })
-    )
+          text: JSON.stringify(
+            {
+              name: SERVER_NAME,
+              version: SERVER_VERSION,
+              environment: 'development',
+            },
+            null,
+            2
+          ),
+        },
+      ],
+    }))
 
     // Register a help prompt
-    server.prompt(
-      'help',
-      {},
-      () => ({
-        messages: [{
+    server.prompt('help', {}, () => ({
+      messages: [
+        {
           role: 'user',
           content: {
             type: 'text',
@@ -62,11 +62,11 @@ export async function main(): Promise<void> {
 3. go_test: Enhanced test runner with coverage reports and benchmark support
 4. go_mod_tidy: Dependency management tool that runs go mod tidy
 
-Each tool accepts a working directory (wd) parameter that must be an absolute path.`
-          }
-        }]
-      })
-    )
+Each tool accepts a working directory (wd) parameter that must be an absolute path.`,
+          },
+        },
+      ],
+    }))
 
     // Connect to transport
     const transport = new StdioServerTransport()

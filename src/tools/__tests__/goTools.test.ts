@@ -1,4 +1,4 @@
-import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js'
+import type { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { MockMcpServer } from '../../__tests__/test-utils.js'
 import { registerGoTools } from '../goTools.js'
@@ -35,16 +35,14 @@ vi.mock('child_process', () => ({
     } else if (cmd.includes('go mod tidy')) {
       return ''
     } else {
-      return 'mocked output for: ' + cmd
+      return `mocked output for: ${cmd}`
     }
-  })
+  }),
 }))
 
 describe('Go Tools', () => {
   let server: MockMcpServer
-  const testWorkingDir = process.platform === 'win32'
-    ? 'C:\\test\\project'
-    : '/test/project'
+  const testWorkingDir = process.platform === 'win32' ? 'C:\\test\\project' : '/test/project'
 
   beforeEach(() => {
     server = new MockMcpServer()
@@ -56,7 +54,7 @@ describe('Go Tools', () => {
     it('should analyze code with golangci-lint', async () => {
       const result = await server.callTool('go_analyze', {
         wd: testWorkingDir,
-        path: './...'
+        path: './...',
       })
 
       expect(result.content[0].type).toBe('text')
@@ -67,7 +65,7 @@ describe('Go Tools', () => {
       const result = await server.callTool('go_analyze', {
         wd: testWorkingDir,
         path: './...',
-        severity: 'error'
+        severity: 'error',
       })
 
       expect(result.content[0].type).toBe('text')
@@ -78,7 +76,7 @@ describe('Go Tools', () => {
       const result = await server.callTool('go_analyze', {
         wd: testWorkingDir,
         path: './...',
-        fix: true
+        fix: true,
       })
 
       expect(result.content[0].type).toBe('text')
@@ -88,7 +86,7 @@ describe('Go Tools', () => {
     it('should reject non-absolute working directory paths', async () => {
       const result = await server.callTool('go_analyze', {
         wd: 'relative/path',
-        path: './...'
+        path: './...',
       })
 
       expect(result.isError).toBe(true)
@@ -102,7 +100,7 @@ describe('Go Tools', () => {
       // and focus on verifying the parameters are handled correctly
       const result = await server.callTool('go_fix', {
         wd: testWorkingDir,
-        path: './...'
+        path: './...',
       })
 
       expect(result.content[0].type).toBe('text')
@@ -116,7 +114,7 @@ describe('Go Tools', () => {
         path: './...',
         deps: false,
         imports: true,
-        format: true
+        format: true,
       })
 
       expect(result.content[0].type).toBe('text')
@@ -131,7 +129,7 @@ describe('Go Tools', () => {
         deps: false,
         imports: false,
         format: true,
-        extra: true
+        extra: true,
       })
 
       expect(result.content[0].type).toBe('text')
@@ -143,7 +141,7 @@ describe('Go Tools', () => {
     it('should run Go tests', async () => {
       const result = await server.callTool('go_test', {
         wd: testWorkingDir,
-        path: './...'
+        path: './...',
       })
 
       expect(result.content[0].type).toBe('text')
@@ -154,7 +152,7 @@ describe('Go Tools', () => {
       const result = await server.callTool('go_test', {
         wd: testWorkingDir,
         path: './...',
-        coverage: true
+        coverage: true,
       })
 
       expect(result.content[0].type).toBe('text')
@@ -166,7 +164,7 @@ describe('Go Tools', () => {
       const result = await server.callTool('go_test', {
         wd: testWorkingDir,
         path: './...',
-        bench: 'Function'
+        bench: 'Function',
       })
 
       expect(result.content[0].type).toBe('text')

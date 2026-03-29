@@ -1,6 +1,6 @@
 import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js'
 import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js'
-import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
+import { afterEach, beforeEach, describe, expect, it, type Mock, vi } from 'vitest'
 import { main } from '../index.js'
 
 // Constants matching those in index.ts
@@ -8,27 +8,31 @@ const SERVER_NAME = 'mcp-golang'
 const SERVER_VERSION = '1.0.0'
 
 // Mock server connect function
-const mockConnect = vi.fn().mockResolvedValue(undefined)
+const mockConnect: Mock = vi.fn().mockResolvedValue(undefined)
 
 // Create mock functions for dependencies
 vi.mock('@modelcontextprotocol/sdk/server/mcp.js', () => ({
-  McpServer: vi.fn(function() {
+  McpServer: vi.fn(function () {
     return {
       tool: vi.fn(),
       resource: vi.fn(),
       prompt: vi.fn(),
-      connect: mockConnect
+      connect: mockConnect,
     }
   }),
-  ResourceTemplate: vi.fn(function() { return {} })
+  ResourceTemplate: vi.fn(function () {
+    return {}
+  }),
 }))
 
 vi.mock('@modelcontextprotocol/sdk/server/stdio.js', () => ({
-  StdioServerTransport: vi.fn(function() { return {} })
+  StdioServerTransport: vi.fn(function () {
+    return {}
+  }),
 }))
 
 vi.mock('../tools/goTools.js', () => ({
-  registerGoTools: vi.fn()
+  registerGoTools: vi.fn(),
 }))
 
 describe('MCP Server', () => {
@@ -54,7 +58,7 @@ describe('MCP Server', () => {
     // Verify McpServer was initialized with correct name and version
     expect(McpServer).toHaveBeenCalledWith({
       name: SERVER_NAME,
-      version: SERVER_VERSION
+      version: SERVER_VERSION,
     })
   })
 
@@ -86,7 +90,9 @@ describe('MCP Server', () => {
 
     // Verify start and success messages were logged
     expect(mockedConsoleError).toHaveBeenCalledWith(`Starting ${SERVER_NAME} v${SERVER_VERSION}...`)
-    expect(mockedConsoleError).toHaveBeenCalledWith(`${SERVER_NAME} server started successfully and ready to handle requests.`)
+    expect(mockedConsoleError).toHaveBeenCalledWith(
+      `${SERVER_NAME} server started successfully and ready to handle requests.`
+    )
   })
 
   it('should handle initialization errors', async () => {
@@ -94,7 +100,7 @@ describe('MCP Server', () => {
     const mockedConsoleError = console.error as ReturnType<typeof vi.fn>
 
     // Mock McpServer to throw an error
-    vi.mocked(McpServer).mockImplementationOnce(function() {
+    vi.mocked(McpServer).mockImplementationOnce(function () {
       throw new Error('Test initialization error')
     })
 

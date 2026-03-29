@@ -1,6 +1,6 @@
-import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js'
+import type { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js'
 import { vi } from 'vitest'
-import { z } from 'zod'
+import type { z } from 'zod'
 
 /**
  * Type for tool handler function
@@ -13,7 +13,10 @@ type ToolHandler = (params: Record<string, unknown>) => Promise<{
 /**
  * Type for resource handler function
  */
-type ResourceHandler = (uri: URL, params: Record<string, unknown>) => Promise<{
+type ResourceHandler = (
+  uri: URL,
+  params: Record<string, unknown>
+) => Promise<{
   contents: Array<{ uri: string; text: string }>
 }>
 
@@ -46,19 +49,20 @@ export class MockMcpServer {
     return this
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   resource(_name: string, _uri: URL | string, _handler: ResourceHandler): this {
     // Resource handling is not needed for most tool tests
     return this
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   prompt(_name: string, _schema: z.ZodRawShape, _handler: PromptHandler): this {
     // Prompt handling is not needed for most tool tests
     return this
   }
 
-  async callTool(name: string, params: Record<string, unknown>): Promise<{
+  async callTool(
+    name: string,
+    params: Record<string, unknown>
+  ): Promise<{
     content: Array<{ type: string; text: string }>
     isError?: boolean
   }> {
@@ -84,7 +88,7 @@ export function mockConsole(): { restore: () => void } {
       infoSpy.mockRestore()
       logSpy.mockRestore()
       warnSpy.mockRestore()
-    }
+    },
   }
 }
 
@@ -97,17 +101,17 @@ export function createMockMcpServer(): {
     onMessage: ReturnType<typeof vi.fn>
     sendMessage: ReturnType<typeof vi.fn>
   }
-  } {
+} {
   const server = {
     resource: vi.fn().mockReturnThis(),
     prompt: vi.fn().mockReturnThis(),
     connect: vi.fn().mockResolvedValue(undefined),
-    tool: vi.fn().mockReturnThis()
+    tool: vi.fn().mockReturnThis(),
   } as unknown as McpServer
 
   const transport = {
     onMessage: vi.fn(),
-    sendMessage: vi.fn()
+    sendMessage: vi.fn(),
   }
 
   return { server, transport }

@@ -1,11 +1,14 @@
-import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js'
-import { exec, ExecOptions, execSync, ExecSyncOptions } from 'child_process'
-import { promisify } from 'util'
+import { type ExecOptions, type ExecSyncOptions, exec, execSync } from 'node:child_process'
+import { promisify } from 'node:util'
+import type { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js'
 import { z } from 'zod'
 
 // Promisify exec for async/await usage
 // Using explicit type assertion to avoid TypeScript errors
-const execAsync = promisify(exec) as (command: string, options?: ExecOptions) => Promise<{ stdout: string; stderr: string }>
+const execAsync = promisify(exec) as (
+  command: string,
+  options?: ExecOptions
+) => Promise<{ stdout: string; stderr: string }>
 
 /**
  * Checks if a path appears to be absolute
@@ -19,7 +22,6 @@ function isAbsolutePath(path: string): boolean {
   return /^[a-zA-Z]:/.test(path) || path.startsWith('/') || path.startsWith('\\')
 }
 
-
 /**
  * Creates an error response for invalid working directory paths
  *
@@ -27,15 +29,17 @@ function isAbsolutePath(path: string): boolean {
  * @returns Error response object
  */
 function createWdError(wd: string): {
-  content: { type: 'text'; text: string }[];
-  isError: boolean;
+  content: { type: 'text'; text: string }[]
+  isError: boolean
 } {
   return {
-    content: [{
-      type: 'text' as const,
-      text: `Error: Working directory "${wd}" is not an absolute path. Please provide a valid absolute path.`
-    }],
-    isError: true
+    content: [
+      {
+        type: 'text' as const,
+        text: `Error: Working directory "${wd}" is not an absolute path. Please provide a valid absolute path.`,
+      },
+    ],
+    isError: true,
   }
 }
 
@@ -47,9 +51,13 @@ function createWdError(wd: string): {
  * @param successMessage Default message when command succeeds but has no output
  * @returns Object with content and optional error flag
  */
-async function executeGoCommand(command: string, workingDir: string, successMessage: string): Promise<{
-  content: { type: 'text'; text: string }[];
-  isError?: boolean;
+async function executeGoCommand(
+  command: string,
+  workingDir: string,
+  successMessage: string
+): Promise<{
+  content: { type: 'text'; text: string }[]
+  isError?: boolean
 }> {
   try {
     let finalCommand = command
@@ -89,50 +97,60 @@ async function executeGoCommand(command: string, workingDir: string, successMess
       console.error(`Running command: ${finalCommand}`)
 
       // Execution options
-      const options: ExecSyncOptions = process.platform === 'win32'
-        ? { encoding: 'utf8', shell: 'cmd.exe' }
-        : { cwd: workingDir, encoding: 'utf8' }
+      const options: ExecSyncOptions =
+        process.platform === 'win32'
+          ? { encoding: 'utf8', shell: 'cmd.exe' }
+          : { cwd: workingDir, encoding: 'utf8' }
 
       // Try using synchronous execution
       const output = execSync(finalCommand, options).toString()
 
       return {
-        content: [{
-          type: 'text' as const,
-          text: output || successMessage
-        }]
+        content: [
+          {
+            type: 'text' as const,
+            text: output || successMessage,
+          },
+        ],
       }
     } catch (syncError) {
       console.error('Failed with execSync, attempting execAsync:', syncError)
 
       // Fall back to async execution
-      const asyncOptions: ExecOptions = process.platform === 'win32'
-        ? { shell: 'cmd.exe' }
-        : { cwd: workingDir }
+      const asyncOptions: ExecOptions =
+        process.platform === 'win32' ? { shell: 'cmd.exe' } : { cwd: workingDir }
 
       const { stdout, stderr } = await execAsync(finalCommand, asyncOptions)
 
       return {
-        content: [{
-          type: 'text' as const,
-          text: stdout || stderr || successMessage
-        }]
+        content: [
+          {
+            type: 'text' as const,
+            text: stdout || stderr || successMessage,
+          },
+        ],
       }
     }
   } catch (error) {
     console.error('Command execution error:', error)
 
     // Extract stdout/stderr from error object if available
-    const errorOutput = error instanceof Error && 'stdout' in error
-      ? (error as unknown as { stdout: string }).stdout || (error as unknown as { stderr: string }).stderr
-      : String(error)
+    const errorOutput =
+      error instanceof Error && 'stdout' in error
+        ? (error as unknown as { stdout: string }).stdout ||
+          (error as unknown as { stderr: string }).stderr
+        : String(error)
 
     return {
-      content: [{
-        type: 'text' as const,
-        text: errorOutput || `Error running command: ${error instanceof Error ? error.message : String(error)}`
-      }],
-      isError: true
+      content: [
+        {
+          type: 'text' as const,
+          text:
+            errorOutput ||
+            `Error running command: ${error instanceof Error ? error.message : String(error)}`,
+        },
+      ],
+      isError: true,
     }
   }
 }
@@ -150,8 +168,8 @@ async function executeSequentialGoCommands(
   workingDir: string,
   combinedSuccessMessage: string
 ): Promise<{
-  content: { type: 'text'; text: string }[];
-  isError?: boolean;
+  content: { type: 'text'; text: string }[]
+  isError?: boolean
 }> {
   let combinedOutput = ''
   let hasError = false
@@ -164,7 +182,7 @@ async function executeSequentialGoCommands(
       const outputText = result.content[0].text
 
       if (combinedOutput) {
-        combinedOutput += '\n\n' + '---'.repeat(10) + '\n\n'
+        combinedOutput += `\n\n${'---'.repeat(10)}\n\n`
       }
 
       // Always include the command output or success message
@@ -178,7 +196,7 @@ async function executeSequentialGoCommands(
       // If a command fails, include error information but continue with remaining commands
       const errorMessage = `Error running command "${command}": ${error instanceof Error ? error.message : String(error)}`
       if (combinedOutput) {
-        combinedOutput += '\n\n' + '---'.repeat(10) + '\n\n'
+        combinedOutput += `\n\n${'---'.repeat(10)}\n\n`
       }
       combinedOutput += `[${command}] ERROR:\n${errorMessage}`
       hasError = true
@@ -186,11 +204,13 @@ async function executeSequentialGoCommands(
   }
 
   return {
-    content: [{
-      type: 'text' as const,
-      text: combinedOutput || combinedSuccessMessage
-    }],
-    isError: hasError
+    content: [
+      {
+        type: 'text' as const,
+        text: combinedOutput || combinedSuccessMessage,
+      },
+    ],
+    isError: hasError,
   }
 }
 
@@ -204,18 +224,31 @@ export function registerGoTools(server: McpServer): void {
     'go_analyze',
     {
       wd: z.string().describe('Working directory where the command will be executed'),
-      path: z.string().default('./...').describe('Path pattern to analyze (e.g., "./...", "./pkg/...", specific file)'),
+      path: z
+        .string()
+        .default('./...')
+        .describe('Path pattern to analyze (e.g., "./...", "./pkg/...", specific file)'),
       config: z.string().optional().describe('Path to custom golangci-lint config file'),
       fast: z.boolean().default(false).describe('Run only fast linters'),
       fix: z.boolean().default(false).describe('Automatically fix issues when possible'),
-      severity: z.enum(['error', 'warning', 'info']).default('warning').describe('Minimum severity of issues to report')
+      severity: z
+        .enum(['error', 'warning', 'info'])
+        .default('warning')
+        .describe('Minimum severity of issues to report'),
     },
-    async ({ wd, path, config, fast, fix, severity }: {
-      wd: string,
-      path: string,
-      config?: string,
-      fast: boolean,
-      fix: boolean,
+    async ({
+      wd,
+      path,
+      config,
+      fast,
+      fix,
+      severity,
+    }: {
+      wd: string
+      path: string
+      config?: string
+      fast: boolean
+      fix: boolean
       severity: string
     }) => {
       // Validate that working directory is an absolute path
@@ -243,19 +276,17 @@ export function registerGoTools(server: McpServer): void {
         command += ' --out-format=colored-line-number' // For better readable output
         command += ` ${path}`
 
-        return executeGoCommand(
-          command,
-          wd,
-          'No issues found in the code'
-        )
+        return executeGoCommand(command, wd, 'No issues found in the code')
       } catch (error) {
         console.error('Error running code analysis:', error)
         return {
-          content: [{
-            type: 'text' as const,
-            text: `Error running code analysis: ${error instanceof Error ? error.message : String(error)}`
-          }],
-          isError: true
+          content: [
+            {
+              type: 'text' as const,
+              text: `Error running code analysis: ${error instanceof Error ? error.message : String(error)}`,
+            },
+          ],
+          isError: true,
         }
       }
     }
@@ -266,18 +297,28 @@ export function registerGoTools(server: McpServer): void {
     'go_fix',
     {
       wd: z.string().describe('Working directory where the command will be executed'),
-      path: z.string().default('./...').describe('Path pattern of files to fix (e.g., "./...", "./pkg/...", specific file)'),
+      path: z
+        .string()
+        .default('./...')
+        .describe('Path pattern of files to fix (e.g., "./...", "./pkg/...", specific file)'),
       deps: z.boolean().default(true).describe('Run go mod tidy to fix dependencies'),
       imports: z.boolean().default(true).describe('Run goimports to fix imports'),
       format: z.boolean().default(true).describe('Run gofumpt to format code'),
-      extra: z.boolean().default(false).describe('Use extra formatting rules with gofumpt')
+      extra: z.boolean().default(false).describe('Use extra formatting rules with gofumpt'),
     },
-    async ({ wd, path, deps, imports, format, extra }: {
-      wd: string,
-      path: string,
-      deps: boolean,
-      imports: boolean,
-      format: boolean,
+    async ({
+      wd,
+      path,
+      deps,
+      imports,
+      format,
+      extra,
+    }: {
+      wd: string
+      path: string
+      deps: boolean
+      imports: boolean
+      format: boolean
       extra: boolean
     }) => {
       // Validate that working directory is an absolute path
@@ -291,14 +332,14 @@ export function registerGoTools(server: McpServer): void {
       if (deps) {
         commands.push({
           command: 'go mod tidy',
-          successMessage: 'Dependencies cleaned up successfully'
+          successMessage: 'Dependencies cleaned up successfully',
         })
       }
 
       if (imports) {
         commands.push({
           command: `goimports -w ${path}`,
-          successMessage: 'Imports organized successfully'
+          successMessage: 'Imports organized successfully',
         })
       }
 
@@ -306,24 +347,22 @@ export function registerGoTools(server: McpServer): void {
         const extraFlag = extra ? '-extra' : ''
         commands.push({
           command: `gofumpt -w ${extraFlag} ${path}`,
-          successMessage: 'Code formatted successfully'
+          successMessage: 'Code formatted successfully',
         })
       }
 
       try {
-        return executeSequentialGoCommands(
-          commands,
-          wd,
-          'Code fixed successfully'
-        )
+        return executeSequentialGoCommands(commands, wd, 'Code fixed successfully')
       } catch (error) {
         console.error('Error fixing code:', error)
         return {
-          content: [{
-            type: 'text' as const,
-            text: `Error fixing code: ${error instanceof Error ? error.message : String(error)}`
-          }],
-          isError: true
+          content: [
+            {
+              type: 'text' as const,
+              text: `Error fixing code: ${error instanceof Error ? error.message : String(error)}`,
+            },
+          ],
+          isError: true,
         }
       }
     }
@@ -334,18 +373,28 @@ export function registerGoTools(server: McpServer): void {
     'go_test',
     {
       wd: z.string().describe('Working directory where the command will be executed'),
-      path: z.string().default('./...').describe('Path pattern for tests to run (e.g., "./...", "./pkg/...", specific package)'),
+      path: z
+        .string()
+        .default('./...')
+        .describe('Path pattern for tests to run (e.g., "./...", "./pkg/...", specific package)'),
       coverage: z.boolean().default(false).describe('Generate code coverage statistics'),
       verbose: z.boolean().default(true).describe('Enable verbose output'),
       race: z.boolean().default(false).describe('Enable data race detection'),
-      bench: z.string().optional().describe('Run only benchmarks matching the regular expression')
+      bench: z.string().optional().describe('Run only benchmarks matching the regular expression'),
     },
-    async ({ wd, path, coverage, verbose, race, bench }: {
-      wd: string,
-      path: string,
-      coverage: boolean,
-      verbose: boolean,
-      race: boolean,
+    async ({
+      wd,
+      path,
+      coverage,
+      verbose,
+      race,
+      bench,
+    }: {
+      wd: string
+      path: string
+      coverage: boolean
+      verbose: boolean
+      race: boolean
       bench?: string
     }) => {
       // Validate that working directory is an absolute path
@@ -380,31 +429,29 @@ export function registerGoTools(server: McpServer): void {
             [
               {
                 command,
-                successMessage: 'Tests passed with no output'
+                successMessage: 'Tests passed with no output',
               },
               {
                 command: 'go tool cover -func=coverage.out',
-                successMessage: 'No coverage information available'
-              }
+                successMessage: 'No coverage information available',
+              },
             ],
             wd,
             'Tests completed successfully'
           )
         } else {
-          return executeGoCommand(
-            command,
-            wd,
-            'Tests passed with no output'
-          )
+          return executeGoCommand(command, wd, 'Tests passed with no output')
         }
       } catch (error) {
         console.error('Error running tests:', error)
         return {
-          content: [{
-            type: 'text' as const,
-            text: `Error running tests: ${error instanceof Error ? error.message : String(error)}`
-          }],
-          isError: true
+          content: [
+            {
+              type: 'text' as const,
+              text: `Error running tests: ${error instanceof Error ? error.message : String(error)}`,
+            },
+          ],
+          isError: true,
         }
       }
     }

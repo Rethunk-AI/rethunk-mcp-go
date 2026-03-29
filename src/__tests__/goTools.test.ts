@@ -1,4 +1,4 @@
-import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js'
+import type { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { registerGoTools } from '../tools/goTools.js'
 
@@ -10,18 +10,18 @@ vi.mock('child_process', () => ({
     } else {
       return {
         stdout: 'mocked stdout',
-        stderr: ''
+        stderr: '',
       }
     }
-  })
+  }),
 }))
 
 interface ToolDefinition {
-  schema: unknown;
+  schema: unknown
   handler: (params: Record<string, unknown>) => Promise<{
-    content: { type: string; text: string }[];
-    isError?: boolean;
-  }>;
+    content: { type: string; text: string }[]
+    isError?: boolean
+  }>
 }
 
 describe('Go Tools', () => {
@@ -34,7 +34,7 @@ describe('Go Tools', () => {
     server = {
       tool: vi.fn((name, schema, handler) => {
         registeredTools[name] = { schema, handler }
-      })
+      }),
     } as unknown as McpServer
 
     registerGoTools(server)
@@ -50,9 +50,10 @@ describe('Go Tools', () => {
         const { handler } = registeredTools[toolName]
 
         // Call handler with the non-absolute path
-        const params = toolName === 'go_mod_tidy'
-          ? { wd: nonAbsolutePath }
-          : { wd: nonAbsolutePath, path: './...' }
+        const params =
+          toolName === 'go_mod_tidy'
+            ? { wd: nonAbsolutePath }
+            : { wd: nonAbsolutePath, path: './...' }
 
         const result = await handler(params)
 
@@ -71,9 +72,8 @@ describe('Go Tools', () => {
         const { handler } = registeredTools[toolName]
 
         // Call handler with the absolute path
-        const params = toolName === 'go_mod_tidy'
-          ? { wd: absolutePath }
-          : { wd: absolutePath, path: './...' }
+        const params =
+          toolName === 'go_mod_tidy' ? { wd: absolutePath } : { wd: absolutePath, path: './...' }
 
         const result = await handler(params)
 
