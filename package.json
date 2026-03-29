@@ -26,34 +26,23 @@
     "zod": "^4.3.6"
   },
   "devDependencies": {
-    "@eslint/js": "^10.0.1",
+    "@biomejs/biome": "^2.4.9",
     "@types/jest": "^30.0.0",
     "@types/node": "^25.5.0",
     "@types/uuid": "^11.0.0",
-    "@typescript-eslint/eslint-plugin": "^8.57.2",
-    "@typescript-eslint/parser": "^8.57.2",
     "@vitest/coverage-v8": "^4.1.2",
-    "eslint": "^10.1.0",
-    "globals": "^17.4.0",
     "jest": "^30.3.0",
     "nodemon": "^3.1.14",
     "ts-jest": "^29.4.6",
     "typescript": "^5.9.3",
-    "typescript-eslint": "^8.57.2",
     "vitest": "^4.1.2"
-  },
-  "resolutions": {
-    "eslint": "^10.1.0",
-    "@typescript-eslint/eslint-plugin": "^8.57.2",
-    "@typescript-eslint/parser": "^8.57.2",
-    "typescript-eslint": "^8.57.2"
   },
   "scripts": {
     "build": "tsc",
     "clean": "rm -rf build",
     "dev": "tsc -w",
-    "lint": "eslint .",
-    "lint:fix": "eslint . --fix",
+    "lint": "biome ci .",
+    "lint:fix": "biome check --write .",
     "prebuild": "yarn clean",
     "start": "node build/index.js",
     "inspector": "mcp-inspector",

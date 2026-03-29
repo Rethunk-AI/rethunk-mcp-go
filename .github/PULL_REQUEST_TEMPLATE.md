@@ -19,7 +19,7 @@ Please delete options that are not relevant.
 
 ## Checklist
 
-- [ ] My code follows the code style of this project (eslint rules)
+- [ ] My code follows the code style of this project (Biome)
 - [ ] I have performed a self-review of my own code
 - [ ] I have commented my code, particularly in hard-to-understand areas
 - [ ] I have made corresponding changes to the documentation

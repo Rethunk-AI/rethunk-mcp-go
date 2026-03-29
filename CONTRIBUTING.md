@@ -20,8 +20,8 @@ Thank you for your interest in contributing to the MCP Template Node project! Th
 3. **Development Scripts**
    - `yarn build` - Build the project
    - `yarn dev` - Watch mode for development
-   - `yarn lint` - Run ESLint
-   - `yarn lint:fix` - Fix ESLint issues
+   - `yarn lint` - Run Biome (format + lint, CI mode)
+   - `yarn lint:fix` - Apply Biome fixes and formatting
    - `yarn test` - Run tests
    - `yarn test:watch` - Run tests in watch mode
    - `yarn inspector` - Run MCP Inspector for testing
@@ -54,8 +54,7 @@ src/
    - Use single quotes for strings
    - No semicolons (except where required)
    - 2-space indentation
-   - Follow ESLint rules defined in `eslint.config.mjs`
-   - We use ESLint but not Prettier
+   - Follow Biome rules defined in `biome.json` (formatter + linter)
 
 3. **Error Handling**
    - Use custom error classes for domain-specific errors
