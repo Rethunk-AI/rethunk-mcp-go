@@ -24,6 +24,11 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      # Yarn 4 + setup-node cache expects Corepack before the action probes `yarn`;
+      # otherwise the runner's global Yarn 1.x conflicts with packageManager.
+      - name: Enable Corepack
+        run: corepack enable
+
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v4
         with:
@@ -50,6 +55,9 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+
+      - name: Enable Corepack
+        run: corepack enable
 
       - name: Use Node.js
         uses: actions/setup-node@v4
