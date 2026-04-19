@@ -6,7 +6,7 @@
     "useIgnoreFile": true
   },
   "files": {
-    "includes": ["**", "!node_modules", "!build", "!.yarn"]
+    "includes": ["**", "!node_modules", "!build", "!.bun"]
   },
   "formatter": {
     "enabled": true,

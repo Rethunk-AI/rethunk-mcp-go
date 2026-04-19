@@ -3,8 +3,8 @@
 
 version: 2
 updates:
-  # Enable version updates for npm/yarn
-  - package-ecosystem: "npm" # Works for both npm and yarn
+  # Enable version updates for npm (includes Bun lockfile)
+  - package-ecosystem: "npm"
     directory: "/" # Location of package manifests
     schedule:
       interval: "weekly" # Check for updates once a week

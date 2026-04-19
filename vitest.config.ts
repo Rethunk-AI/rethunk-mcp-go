@@ -4,6 +4,6 @@ export default defineConfig({
   test: {
     globals: true,
     environment: 'node',
-    exclude: ['**/node_modules/**', '**/build/**', '**/.yarn/**'],
+    exclude: ['**/node_modules/**', '**/build/**', '**/.bun/**'],
   },
 })

@@ -6,7 +6,7 @@ Thank you for your interest in contributing to this project! This document provi
 
 1. **Prerequisites**
    - Node.js 20.12 or later (LTS recommended)
-   - npm or yarn (we use yarn as the default)
+   - [Bun](https://bun.sh/) 1.3 or later
    - Git
 
 2. **Clone and Install**
@@ -14,19 +14,19 @@ Thank you for your interest in contributing to this project! This document provi
    ```bash
    git clone https://github.com/Rethunk-AI/rethunk-mcp-go.git
    cd rethunk-mcp-go
-   yarn install
+   bun install
    ```
 
 3. **Development Scripts**
-   - `yarn build` - Build the project
-   - `yarn dev` - Watch mode for development
-   - `yarn lint` - Run Biome (format + lint, CI mode)
-   - `yarn lint:fix` - Apply Biome fixes and formatting
-   - `yarn test` - Run tests
-   - `yarn test:watch` - Run tests in watch mode
-   - `yarn inspector` - Run MCP Inspector for testing
-   - `yarn clean` - Clean build artifacts
-   - `yarn start` - Run the built server
+   - `bun run build` - Build the project
+   - `bun run dev` - Watch mode for development
+   - `bun run lint` - Run Biome (format + lint, CI mode)
+   - `bun run lint:fix` - Apply Biome fixes and formatting
+   - `bun run test` - Run tests
+   - `bun run test:watch` - Run tests in watch mode
+   - `bun run inspector` - Run MCP Inspector for testing
+   - `bun run clean` - Clean build artifacts
+   - `bun run start` - Run the built server
 
 ## Project Structure
 
@@ -147,7 +147,7 @@ src/
 1. Fork the repository
 2. Create a feature branch (`git checkout -b feature/amazing-feature`)
 3. Make your changes
-4. Run linting and tests (`yarn lint && yarn test`)
+4. Run linting and tests (`bun run lint && bun run test`)
 5. Commit using conventional commits format
 6. Push to your fork
 7. Create a Pull Request

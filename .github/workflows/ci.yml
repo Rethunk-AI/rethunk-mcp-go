@@ -16,33 +16,22 @@ jobs:
     # Only needs read-only access to contents
     permissions:
       contents: read
-    strategy:
-      matrix:
-        # Match package.json engines.node (>=20.12.0).
-        node-version: [20.x, 22.x]
 
     steps:
       - uses: actions/checkout@v4
 
-      # Yarn 4 + setup-node cache expects Corepack before the action probes `yarn`;
-      # otherwise the runner's global Yarn 1.x conflicts with packageManager.
-      - name: Enable Corepack
-        run: corepack enable
-
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v4
+      - uses: oven-sh/setup-bun@v2
         with:
-          node-version: ${{ matrix.node-version }}
-          cache: 'yarn'
+          bun-version: 1.3.12
 
       - name: Install dependencies
-        run: yarn install --immutable
+        run: bun install --frozen-lockfile
 
       - name: Run linting
-        run: yarn lint
+        run: bun run lint
 
       - name: Run tests
-        run: yarn test
+        run: bun run test
 
   build:
     name: Build
@@ -50,26 +39,21 @@ jobs:
     # Needs read-only access to contents and ability to upload artifacts
     permissions:
       contents: read
-      actions: write  # Required for artifacts upload
+      actions: write # Required for artifacts upload
     needs: test
 
     steps:
       - uses: actions/checkout@v4
 
-      - name: Enable Corepack
-        run: corepack enable
-
-      - name: Use Node.js
-        uses: actions/setup-node@v4
+      - uses: oven-sh/setup-bun@v2
         with:
-          node-version: '20.x'
-          cache: 'yarn'
+          bun-version: 1.3.12
 
       - name: Install dependencies
-        run: yarn install --immutable
+        run: bun install --frozen-lockfile
 
       - name: Build project
-        run: yarn build
+        run: bun run build
 
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4

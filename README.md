@@ -21,8 +21,8 @@ The Model Context Protocol (MCP) is a standardized way for applications to provi
 
 ## Prerequisites
 
-- Node.js 20.12 or later (LTS recommended)
-- npm or yarn
+- [Bun](https://bun.sh/) 1.3 or later (install and scripts)
+- Node.js 20.12 or later (LTS recommended; used by `bun run start` → `node`)
 - Go 1.18 or later
 - The following Go tools installed:
   - `golint`: `go install golang.org/x/lint/golint@latest`
@@ -60,29 +60,29 @@ rethunk-mcp-go/
 2. Install dependencies:
 
    ```bash
-   yarn install
+   bun install
    ```
 
 3. Build and run the server:
 
    ```bash
-   yarn build
-   yarn start
+   bun run build
+   bun run start
    ```
 
 ## Development
 
-- Start TypeScript compiler in watch mode: `yarn dev`
-- Lint your code: `yarn lint`
-- Fix linting issues: `yarn lint:fix`
-- Run tests: `yarn test`
+- Start TypeScript compiler in watch mode: `bun run dev`
+- Lint your code: `bun run lint`
+- Fix linting issues: `bun run lint:fix`
+- Run tests: `bun run test`
 
 ## Testing with MCP Inspector
 
 For standalone testing, use the MCP Inspector tool:
 
 ```bash
-yarn inspector
+bun run inspector
 ```
 
 This will open an interactive session where you can test your MCP tools.
