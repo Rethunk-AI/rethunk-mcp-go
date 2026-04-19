@@ -3,9 +3,9 @@
 
 version: 2
 updates:
-  # Enable version updates for npm (includes Bun lockfile)
-  - package-ecosystem: "npm"
-    directory: "/" # Location of package manifests
+  # Version updates for Bun (bun.lock + package.json)
+  - package-ecosystem: "bun"
+    directory: "/"
     schedule:
       interval: "weekly" # Check for updates once a week
     versioning-strategy: "auto"
