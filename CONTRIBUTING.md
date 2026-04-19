@@ -1,6 +1,6 @@
-# Contributing to MCP Template Node
+# Contributing to MCP Golang
 
-Thank you for your interest in contributing to the MCP Template Node project! This document provides guidelines and instructions for contributing.
+Thank you for your interest in contributing to this project! This document provides guidelines and instructions for contributing.
 
 ## Development Setup
 
@@ -12,8 +12,8 @@ Thank you for your interest in contributing to the MCP Template Node project! Th
 2. **Clone and Install**
 
    ```bash
-   git clone https://github.com/yourusername/mcp-template-node.git
-   cd mcp-template-node
+   git clone https://github.com/Rethunk-AI/rethunk-mcp-go.git
+   cd rethunk-mcp-go
    yarn install
    ```
 

@@ -1,8 +1,8 @@
 blank_issues_enabled: false
 contact_links:
   - name: Questions and Discussions
-    url: https://github.com/yourusername/mcp-template-node/discussions
-    about: For questions and discussions about the MCP template node project
+    url: https://github.com/Rethunk-AI/rethunk-mcp-go/discussions
+    about: For questions and discussions about this MCP server
   - name: MCP Documentation
     url: https://modelcontextprotocol.github.io/
     about: Official documentation for the Model Context Protocol

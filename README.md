@@ -31,7 +31,7 @@ The Model Context Protocol (MCP) is a standardized way for applications to provi
 ## Project Structure
 
 ```shell
-mcp-golang/
+rethunk-mcp-go/
 ├── build/                # Compiled JavaScript files
 ├── cmd/                  # Example Go code for testing
 │   └── example/          # Simple Go application
@@ -53,8 +53,8 @@ mcp-golang/
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/Rethunk-Tech/mcp-golang.git
-   cd mcp-golang
+   git clone https://github.com/Rethunk-AI/rethunk-mcp-go.git
+   cd rethunk-mcp-go
    ```
 
 2. Install dependencies:
@@ -196,7 +196,7 @@ To integrate this MCP server with Cursor or Claude Desktop, add the following co
       "command": "cmd",
       "args": [
         "/c",
-        "node C:\\path\\to\\mcp-golang\\build\\index.js"
+        "node C:\\path\\to\\rethunk-mcp-go\\build\\index.js"
       ],
       "enabled": true
     }
@@ -204,7 +204,7 @@ To integrate this MCP server with Cursor or Claude Desktop, add the following co
 }
 ```
 
-Make sure to replace `C:\\path\\to\\mcp-golang` with the actual path to your installation, using double backslashes for Windows paths.
+Make sure to replace `C:\\path\\to\\rethunk-mcp-go` with the actual path to your installation, using double backslashes for Windows paths.
 
 You can then access the tools in Cursor or Claude Desktop with the following names:
 
