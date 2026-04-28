@@ -13,8 +13,7 @@ MCP server for Go language analysis: static analysis, testing, linting, formatti
 ```
 src/
 ├── tools/
-│   ├── goTools.ts          Go CLI tool wrappers (vet, test, fmt, lint, mod)
-│   └── noteTools.ts        Example note-taking tools
+│   └── goTools.ts          Go CLI tool wrappers (analyze, fix, test)
 ├── types/                  TypeScript interfaces for tool I/O
 ├── errors/                 Custom MCP error classes
 └── index.ts                MCP server entrypoint
@@ -77,7 +76,7 @@ AI agents that modify command execution without human approval should have their
 
 - **Go required:** Assumes Go 1.18+ is installed and `go` binary is in PATH
 - **External tools required:** `golint`, `deadcode` must be installed separately
-- **Relative paths only:** Tools operate on relative paths within project directory (no absolute paths)
+- **Absolute paths required:** The `wd` parameter must be an absolute path; relative paths are rejected by `isAbsolutePath` validation
 - **No network access:** Tools assume local file-only access; no remote module loading
 
 ## Getting Help

@@ -66,12 +66,11 @@ To integrate this MCP server with Cursor or Claude Desktop, add this configurati
 Replace `/path/to/rethunk-mcp-go` with your actual installation path.
 
 Available tools in Cursor/Claude Desktop:
-- `mcp_go_find_dead_code`
-- `mcp_go_vet`
-- `mcp_go_format`
-- `mcp_go_lint`
-- `mcp_go_test`
-- `mcp_go_mod_tidy`
+- `go_analyze` — Comprehensive static analysis via golangci-lint
+- `go_fix` — Code cleanup: dependencies, imports, and formatting
+- `go_test` — Test runner with coverage and benchmark support
+
+Each tool requires an absolute path for the `wd` (working directory) parameter.
 
 ---
 

@@ -19,13 +19,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Added
 - MCP server implementation in TypeScript for Go language tools
 - Go code analysis tools:
-  - `go_find_dead_code`: Identify unused code in Go projects
-  - `go_vet`: Run Go's static analyzer for suspicious code patterns
-  - `go_format`: Format Go code according to standard style
-  - `go_lint`: Run Go linting with golint
-  - `go_test`: Execute Go tests and report results
-  - `go_mod_tidy`: Clean up and organize Go module dependencies
-- Example note-taking tools for MCP tool development patterns
+  - `go_analyze`: Comprehensive code analysis via golangci-lint with configurable severity and auto-fix
+  - `go_fix`: Code cleanup sequencing `go mod tidy`, `goimports`, and `gofumpt`
+  - `go_test`: Test runner with coverage profiles, race detection, and benchmark support
 - Comprehensive TypeScript type definitions for tool inputs and outputs
 - Custom error handling with structured MCP error responses
 - MCP Inspector integration for testing and debugging
@@ -35,6 +31,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ### Features
 - Strict TypeScript mode with explicit return types
+- Absolute-path validation on `wd` parameter to prevent directory traversal
 - Output from Go tools passed directly to LLMs for analysis
 - Test project (`cmd/example`) for validating tool functionality
 - Biome linting and formatting for code quality

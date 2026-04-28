@@ -18,12 +18,11 @@ A Model Context Protocol (MCP) server that provides Go language tools for LLMs t
 
 ## Available Go Tools
 
-- `go_find_dead_code` — Find unused code in Go projects
-- `go_vet` — Run Go's static analyzer
-- `go_format` — Format Go code
-- `go_lint` — Run Go linting
-- `go_test` — Run Go tests
-- `go_mod_tidy` — Clean up Go module dependencies
+- `go_analyze` — Comprehensive code analysis using golangci-lint (configurable severity, auto-fix)
+- `go_fix` — Code cleanup: runs `go mod tidy`, `goimports`, and `gofumpt` in sequence
+- `go_test` — Run Go tests with optional coverage reports, race detection, and benchmarks
+
+All tools require an absolute `wd` (working directory) path parameter.
 
 ## License
 
