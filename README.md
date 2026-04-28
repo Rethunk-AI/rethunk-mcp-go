@@ -215,6 +215,12 @@ You can then access the tools in Cursor or Claude Desktop with the following nam
 - `mcp_go_test`
 - `mcp_go_mod_tidy`
 
+## Documentation
+
+- **[SECURITY.md](SECURITY.md)** - Security policy, vulnerability reporting, and input validation practices
+- **[AGENTS.md](AGENTS.md)** - Constraints and guidelines for AI agents working on this project
+- **[CHANGELOG.md](CHANGELOG.md)** - Version history and release notes
+
 ## Contributing
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines on how to contribute to this project.
