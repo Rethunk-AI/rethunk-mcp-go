@@ -23,6 +23,17 @@ function isAbsolutePath(path: string): boolean {
 }
 
 /**
+ * Checks if a string contains shell metacharacters that could enable command injection
+ * Blocks: & | ; ` $ ( ) < > ^ %
+ *
+ * @param s The string to check
+ * @returns True if the string contains shell metacharacters, false otherwise
+ */
+function containsShellMetachars(s: string): boolean {
+  return /[&|;`$()<>^%]/.test(s)
+}
+
+/**
  * Creates an error response for invalid working directory paths
  *
  * @param wd The invalid working directory path
@@ -60,6 +71,19 @@ async function executeGoCommand(
   isError?: boolean
 }> {
   try {
+    // Security check: validate workingDir does not contain shell metacharacters
+    if (containsShellMetachars(workingDir)) {
+      return {
+        content: [
+          {
+            type: 'text' as const,
+            text: `Error: Working directory "${workingDir}" contains invalid shell metacharacters. Please provide a path without special characters (&, |, ;, \`, $, (, ), <, >, ^, %).`,
+          },
+        ],
+        isError: true,
+      }
+    }
+
     let finalCommand = command
 
     // Handle Windows specially
