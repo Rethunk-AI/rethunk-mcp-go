@@ -24,7 +24,7 @@
   "dependencies": {
     "@modelcontextprotocol/sdk": "1.29.0",
     "uuid": "14.0.0",
-    "zod": "4.3.6"
+    "zod": "4.4.3"
   },
   "devDependencies": {
     "@biomejs/biome": "2.4.14",
