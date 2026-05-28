@@ -5,17 +5,17 @@
     "": {
       "name": "mcp-golang",
       "dependencies": {
-        "@modelcontextprotocol/sdk": "latest",
-        "uuid": "latest",
-        "zod": "latest",
+        "@modelcontextprotocol/sdk": "1.29.0",
+        "uuid": "14.0.0",
+        "zod": "4.4.3",
       },
       "devDependencies": {
-        "@biomejs/biome": "latest",
-        "@types/node": "latest",
-        "@vitest/coverage-v8": "latest",
-        "nodemon": "latest",
-        "typescript": "latest",
-        "vitest": "latest",
+        "@biomejs/biome": "2.4.16",
+        "@types/node": "25.9.1",
+        "@vitest/coverage-v8": "4.1.7",
+        "nodemon": "3.1.14",
+        "typescript": "6.0.3",
+        "vitest": "4.1.7",
       },
     },
   },
@@ -24,6 +24,7 @@
     "express-rate-limit": "^8.3.2",
     "hono": "^4.12.14",
     "vite": "^8.0.5",
+    "zod": "^4.4.3",
   },
   "packages": {
     "@babel/helper-string-parser": ["@babel/helper-string-parser@7.27.1", "", {}, "sha512-qMlSxKbpRlAridDExk92nSobyDdpPijUq2DW6oDnUqd0iOGxmQjyqhMIihI9+zv4LPyZdRje2cavWPbCbWm3eA=="],
@@ -465,8 +466,6 @@
     "zod": ["zod@4.4.3", "", {}, "sha512-ytENFjIJFl2UwYglde2jchW2Hwm4GJFLDiSXWdTrJQBIN9Fcyp7n4DhxJEiWNAJMV1/BqWfW/kkg71UDcHJyTQ=="],
 
     "zod-to-json-schema": ["zod-to-json-schema@3.25.2", "", { "peerDependencies": { "zod": "^3.25.28 || ^4" } }, "sha512-O/PgfnpT1xKSDeQYSCfRI5Gy3hPf91mKVDuYLUHZJMiDFptvP41MSnWofm8dnCm0256ZNfZIM7DSzuSMAFnjHA=="],
-
-    "@modelcontextprotocol/sdk/zod": ["zod@4.3.6", "", {}, "sha512-rftlrkhHZOcjDwkGlnUtZZkvaPHCsDATp4pGpuOOMDaTdDDXF91wuVDJoWoPsKX/3YPQ5fHuF3STjcYyKr+Qhg=="],
 
     "anymatch/picomatch": ["picomatch@2.3.2", "", {}, "sha512-V7+vQEJ06Z+c5tSye8S+nHUfI51xoXIXjHQ99cQtKUkQqqO1kO/KCJUfZXuB47h/YBlDhah2H3hdUGXn8ie0oA=="],
 
