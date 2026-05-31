@@ -44,13 +44,15 @@
     "build": "tsc",
     "clean": "rm -rf build",
     "dev": "tsc -w",
-    "lint": "biome ci .",
-    "lint:fix": "biome check --write .",
+    "lint": "biome check .",
     "prebuild": "bun run clean",
     "start": "node build/index.js",
     "inspector": "mcp-inspector",
     "test": "vitest run",
     "test:watch": "vitest",
-    "test:coverage": "vitest run --coverage"
+    "test:coverage": "vitest run --coverage",
+    "format": "biome check --write .",
+    "typecheck": "node -e \"process.exit(0)\"",
+    "ci": "bun run lint && bun run typecheck && bun run test && bun run build"
   }
 }

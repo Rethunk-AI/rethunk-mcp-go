@@ -34,7 +34,7 @@ User-facing setup, installation, and configuration guides.
 
 - Watch mode (TypeScript compiler): `bun run dev`
 - Lint and format: `bun run lint`
-- Fix linting issues: `bun run lint:fix`
+- Fix linting issues: `bun run format`
 - Run tests: `bun run test`
 
 ## Testing with MCP Inspector

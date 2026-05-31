@@ -21,7 +21,7 @@ Thank you for your interest in contributing to this project! This document provi
    - `bun run build` - Build the project
    - `bun run dev` - Watch mode for development
    - `bun run lint` - Run Biome (format + lint, CI mode)
-   - `bun run lint:fix` - Apply Biome fixes and formatting
+   - `bun run format` - Apply Biome fixes and formatting
    - `bun run test` - Run tests
    - `bun run test:watch` - Run tests in watch mode
    - `bun run inspector` - Run MCP Inspector for testing
