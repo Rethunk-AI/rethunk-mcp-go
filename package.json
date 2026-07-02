@@ -27,8 +27,8 @@
     "zod": "4.4.3"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.5.1",
-    "@types/node": "26.0.1",
+    "@biomejs/biome": "2.5.2",
+    "@types/node": "26.1.0",
     "@vitest/coverage-v8": "4.1.9",
     "nodemon": "3.1.14",
     "typescript": "6.0.3",
